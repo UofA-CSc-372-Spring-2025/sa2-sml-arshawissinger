@@ -21,16 +21,15 @@ val () =
 
 (**** Problem B ****)
 
-fun firstVowel (x::_) =
-  case x of
-      #"a" => true
-    | #"e" => true
-    | #"i" => true
-    | #"o" => true
-    | #"u" => true
-    | _ => false
-  | firstVowel [] = false
-
+fun firstVowel [] = false
+  | firstVowel(x::_) = 
+    case x of
+        #"a" => true
+      | #"e" => true
+      | #"i" => true
+      | #"o" => true
+      | #"u" => true
+      | _ => false
 
 val () =
     Unit.checkExpectWith Bool.toString "firstVowel 'ack' should be true"
@@ -38,7 +37,7 @@ val () =
     true
 
 (**** Problem C ****)
-(*
+
 fun reverse xs = xs
 
 val () =
@@ -46,7 +45,7 @@ val () =
   "reverse [1,2] should be [2,1]"
   (fn () => reverse [1,2])
   [2,1]
-*)
+
 (**** Problem D ****)
 (*
 fun minlist _ = 0
