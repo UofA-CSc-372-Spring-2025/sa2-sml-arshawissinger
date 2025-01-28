@@ -1,19 +1,17 @@
 (* Solutions to SA2 assignment, Intro to ML *)
 
-(* Name:                                    *)
-(* Time spent on HW6:
-*)
+(* Name: Arsha Wissinger *)
+(* Time spent on SA2: 6 hours *)
 
-(* Collaborators and references:
-*)
+(* Collaborators and references: ChatGPT *)
 
 (* indicate planning to use the Unit testing module *)
 use "Unit.sml";
 
 (**** Problem A ****)
 
-fun mynull []       = true
-  | mynull (_::_)   = false
+fun mynull [] = true
+  | mynull _ = false
 
 val () =
     Unit.checkExpectWith Bool.toString "mynull [] should be true"
