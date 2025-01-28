@@ -28,7 +28,8 @@ fun firstVowel (x::_) =
     | #"i" => true
     | #"o" => true
     | #"u" => true
-  | _ => false
+    | _ => false
+  | firstVowel [] = false
 
 
 val () =
