@@ -1,7 +1,7 @@
 (* Solutions to SA2 assignment, Intro to ML *)
 
 (* Name: Arsha Wissinger *)
-(* Time spent on SA2: 6 hours *)
+(* Time spent on SA2: 3 hours *)
 
 (* Collaborators and references: ChatGPT *)
 
@@ -38,7 +38,8 @@ val () =
 
 (**** Problem C ****)
 
-fun reverse xs = xs
+fun reverse list = 
+  List.foldl(fn(x, acc) => x :: acc) [] list
 
 val () =
   Unit.checkExpectWith (Unit.listString Int.toString) 
@@ -47,8 +48,10 @@ val () =
   [2,1]
 
 (**** Problem D ****)
-(*
-fun minlist _ = 0
+
+fun minlist [] = raise Match
+  | minlist (x::xs) =
+      List.foldl(fn(x, acc) => Int.min(x, acc)) x xs
 
 val () =
   Unit.checkExnWith Int.toString
@@ -60,25 +63,44 @@ val () =
   "minlist [1,2,3,4,0] should be 0"
   (fn () => minlist [1,2,3,4,0])
   0
-*)
+
 (**** Problem E ****)
-(*
+
 exception Mismatch
 
-fun zip _ = []
+fun zip ([],[]) = []
+  | zip(x::xs, y::ys) = (x,y) :: zip (xs, ys)
+  | zip(_,_) = raise Mismatch
+
+
+val () =
+  Unit.checkExnWith Int.toString
+  "zip ([1,2],[3]) should raise a mismatch exception"
+  (fn () => (zip([1,2],[3])) handle Mismatch => ())
+
+(*
+val () =
+  Unit.checkExpectWith Int.toString
+  "zip [1,2,3], [4,5,6] should be [(1,4),(2,5),(3,6)]"
+  zip([1,2,3,4,5], [5,4,3,2,1])
+  [(1,5),(2,4),(3,3),(4,2),(5,1)]
 *)
+
 (**** Problem F ****)
 (*
 fun concat xs = xs
 *)
+
 (**** Problem G ****)
 (*
 fun isDigit _    = false;
 *)
+
 (**** Problem H ****)
 (*
 fun isAlpha c = false
 *)
+
 (**** Problem I ****)
 (*
 fun svgCircle (cx, cy, r, fill) = "NOT IMPLEMENTED YET"
@@ -89,6 +111,7 @@ val () =
   (fn () => svgCircle (200, 300, 100, "red"))
   "<circle cx=\"200\" cy=\"300\" r=\"100\" fill=\"red\" />";
 *)
+
 (**** Problem J ****)
 (*
 fun partition p (x :: xs) = ([],[])
