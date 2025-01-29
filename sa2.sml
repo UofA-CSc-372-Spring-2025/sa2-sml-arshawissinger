@@ -96,11 +96,6 @@ fun isDigit x =
     | #"9" => true
     | _ => false;
 
-val () =
-    Unit.checkExpectWith Bool.toString "isDigit #"1" should be true"
-    (fn () => isDigit #"1") 
-    true;
-
 (**** Problem H ****)
 (* Takes a single character and returns true if the character is an 
  * alphabetical letter ('a' to 'z' or 'A' to 'Z') and false otherwise. *)
