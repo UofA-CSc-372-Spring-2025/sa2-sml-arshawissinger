@@ -1,7 +1,7 @@
 (* Solutions to SA2 assignment, Intro to ML *)
 
 (* Name: Arsha Wissinger *)
-(* Time spent on SA2: 3 hours *)
+(* Time spent on SA2: 4 hours *)
 
 (* Collaborators and references: ChatGPT *)
 
@@ -9,7 +9,7 @@
 use "Unit.sml";
 
 (**** Problem A ****)
-
+(* Returns true if list is empty, false otherwise *)
 fun mynull [] = true
   | mynull _ = false
 
@@ -18,9 +18,9 @@ val () =
     (fn () => mynull [])
     true
 
-
 (**** Problem B ****)
-
+(* Takes a list of lower-case letters and returns true if the first character 
+ * is a vowel (aeiou) and false if the character is not a vowel or empty *)
 fun firstVowel [] = false
   | firstVowel(x::_) = 
     case x of
@@ -37,7 +37,7 @@ val () =
     true
 
 (**** Problem C ****)
-
+(* Define reverse : 'a list -> 'a list using foldl *)
 fun reverse list = 
   List.foldl(fn(x, acc) => x :: acc) [] list
 
@@ -48,7 +48,7 @@ val () =
   [2,1]
 
 (**** Problem D ****)
-
+(* Returns the smallest element of a nonempty list of integers. *)
 fun minlist [] = raise Match
   | minlist (x::xs) =
       List.foldl(fn(x, acc) => Int.min(x, acc)) x xs
@@ -65,63 +65,89 @@ val () =
   0
 
 (**** Problem E ****)
-
+(* Takes a pair of lists (of equal length) and returns the equivalent
+ * list of pairs. If the lengths don't match, raise the exception Mismatch *)
 exception Mismatch
 
 fun zip ([],[]) = []
   | zip(x::xs, y::ys) = (x,y) :: zip (xs, ys)
   | zip(_,_) = raise Mismatch
 
-
-val () =
-  Unit.checkExnWith Int.toString
-  "zip ([1,2],[3]) should raise a mismatch exception"
-  (fn () => (zip([1,2],[3])) handle Mismatch => ())
-
-(*
-val () =
-  Unit.checkExpectWith Int.toString
-  "zip [1,2,3], [4,5,6] should be [(1,4),(2,5),(3,6)]"
-  zip([1,2,3,4,5], [5,4,3,2,1])
-  [(1,5),(2,4),(3,3),(4,2),(5,1)]
-*)
-
 (**** Problem F ****)
-(*
-fun concat xs = xs
-*)
+(* Takes a list of lists of 'a and produces a single list of 'a containing 
+ * all the elements in the correct order. *)
+fun concat [] = []
+  | concat (x::xs) = x @ concat xs;
 
 (**** Problem G ****)
-(*
-fun isDigit _    = false;
-*)
+(* Takes a single character and returns true if the character is a digit 
+ * ('0' to '9') and false otherwise. *)
+fun isDigit x =
+  case x of
+      #"0" => true
+    | #"1" => true
+    | #"2" => true
+    | #"3" => true
+    | #"4" => true
+    | #"5" => true
+    | #"6" => true
+    | #"7" => true
+    | #"8" => true
+    | #"9" => true
+    | _ => false;
+
+val () =
+    Unit.checkExpectWith Bool.toString "isDigit #"1" should be true"
+    (fn () => isDigit #"1") 
+    true;
 
 (**** Problem H ****)
-(*
-fun isAlpha c = false
-*)
+(* Takes a single character and returns true if the character is an 
+ * alphabetical letter ('a' to 'z' or 'A' to 'Z') and false otherwise. *)
+fun isAlpha x = 
+  let
+    val ascii = Char.ord x
+  in
+    (ascii >= Char.ord #"a" andalso ascii <= Char.ord #"z") orelse
+    (ascii >= Char.ord #"A" andalso ascii <= Char.ord #"Z")
+  end;
 
 (**** Problem I ****)
-(*
-fun svgCircle (cx, cy, r, fill) = "NOT IMPLEMENTED YET"
+(* Takes a tuple of four values and returns a string in the following format
+ * <circle cx="..." cy="..." r="..." fill="..." /> *)
+fun svgCircle (cx, cy, r, fill) =
+  "<circle cx=\"" ^ Int.toString cx ^
+  "\" cy=\"" ^ Int.toString cy ^
+  "\" r=\"" ^ Int.toString r ^
+  "\" fill=\"" ^ fill ^
+  "\" />"
 
 val () =
   Unit.checkExpectWith (fn x => x)
   "svgCircle (200, 300, 100, \"red\") should return <circle cx=\"200\" cy=\"300\" r=\"100\" fill=\"red\" />"
   (fn () => svgCircle (200, 300, 100, "red"))
   "<circle cx=\"200\" cy=\"300\" r=\"100\" fill=\"red\" />";
-*)
 
 (**** Problem J ****)
-(*
-fun partition p (x :: xs) = ([],[])
+(* Takes a predicate function and a list, and splits the list into two lists:
+ * The first list contains elements that satisfy the predicate.
+ * The second list contains elements that do not satisfy the predicate. *)
+fun partition p [] = ([], [])
+  | partition p (x :: xs) =
+      let
+        val (true_list, false_list) = partition p xs
+      in
+        if p x then
+          (x :: true_list, false_list)
+        else
+          (true_list, x :: false_list)
+      end;
 
 val () =
   Unit.checkExpectWith (fn (l1, l2) => "(" ^ Unit.listString Int.toString l1 ^ ", " ^ Unit.listString Int.toString l2 ^ ")")
   "partition (fn x => x mod 2 = 0) [1, 2, 3, 4, 5] should return ([2, 4], [1, 3, 5])"
   (fn () => partition (fn x => x mod 2 = 0) [1, 2, 3, 4, 5])
   ([2, 4], [1, 3, 5]);
-*)
 
 (* Unit testing reporting *)
 
