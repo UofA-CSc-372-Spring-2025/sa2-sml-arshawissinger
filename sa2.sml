@@ -67,7 +67,7 @@ val () =
 (* Returns the smallest element of a nonempty list of integers. *)
 fun minlist [] = raise Match
   | minlist (x::xs) =
-      List.foldl(fn(x, acc) => Int.min(x, acc)) x xs
+    List.foldl(fn(x, acc) => Int.min(x, acc)) x xs
 
 val () =
   Unit.checkExnWith Int.toString
@@ -103,7 +103,7 @@ val () =
     0
 
 val () =
-  Unit.checkExpectWith (Int.toString Int.toString)
+  Unit.checkExpectWith (Unit.listString Int.toString)
   "zip ([1,2,3],[4,5,6]) should be [(1,4),(2,5),(3,6)]"
   (fn () => zip ([1,2,3],[4,5,6]))
   [(1,4),(2,5),(3,6)]
