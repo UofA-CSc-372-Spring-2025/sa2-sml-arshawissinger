@@ -1,7 +1,7 @@
 (* Solutions to SA2 assignment, Intro to ML *)
 
 (* Name: Arsha Wissinger *)
-(* Time spent on SA2: 4 hours *)
+(* Time spent on SA2: 4.5 hours *)
 
 (* Collaborators and references: ChatGPT *)
 
@@ -17,6 +17,11 @@ val () =
     Unit.checkExpectWith Bool.toString "mynull [] should be true"
     (fn () => mynull [])
     true
+
+val () =
+    Unit.checkExpectWith Bool.toString "mynull [1] should be false"
+    (fn () => mynull [1])
+    false
 
 (**** Problem B ****)
 (* Takes a list of lower-case letters and returns true if the first character 
@@ -36,6 +41,11 @@ val () =
     (fn () => firstVowel [#"a",#"c",#"k"])
     true
 
+val () =
+    Unit.checkExpectWith Bool.toString "firstVowel 'kca' should be false"
+    (fn () => firstVowel [#"k",#"c",#"a"])
+    false
+
 (**** Problem C ****)
 (* Define reverse : 'a list -> 'a list using foldl *)
 fun reverse list = 
@@ -46,6 +56,12 @@ val () =
   "reverse [1,2] should be [2,1]"
   (fn () => reverse [1,2])
   [2,1]
+
+val () =
+  Unit.checkExpectWith (Unit.listString Int.toString) 
+  "reverse [1,2,3,4,5] should be [5,4,3,2,1]"
+  (fn () => reverse [1,2,3,4,5])
+  [5,4,3,2,1]
 
 (**** Problem D ****)
 (* Returns the smallest element of a nonempty list of integers. *)
@@ -64,6 +80,12 @@ val () =
   (fn () => minlist [1,2,3,4,0])
   0
 
+val () =
+  Unit.checkExpectWith Int.toString
+  "minlist [1] should be 1"
+  (fn () => minlist [1])
+  1
+
 (**** Problem E ****)
 (* Takes a pair of lists (of equal length) and returns the equivalent
  * list of pairs. If the lengths don't match, raise the exception Mismatch *)
@@ -72,12 +94,38 @@ exception Mismatch
 fun zip ([],[]) = []
   | zip(x::xs, y::ys) = (x,y) :: zip (xs, ys)
   | zip(_,_) = raise Mismatch
+  
+(*
+val () =
+  Unit.checkExnWith Int.toString
+    "zip ([1,2],[3]) should raise an exception"
+    (fn () => zip ([1,2], [3]))
+    0
+
+val () =
+  Unit.checkExpectWith (Int.toString Int.toString)
+  "zip ([1,2,3],[4,5,6]) should be [(1,4),(2,5),(3,6)]"
+  (fn () => zip ([1,2,3],[4,5,6]))
+  [(1,4),(2,5),(3,6)]
+*)
 
 (**** Problem F ****)
 (* Takes a list of lists of 'a and produces a single list of 'a containing 
  * all the elements in the correct order. *)
 fun concat [] = []
   | concat (x::xs) = x @ concat xs;
+
+val () =
+  Unit.checkExpectWith (Unit.listString Int.toString)
+  "concat [[1,2,3],[4],[5]] should be [1,2,3,4,5]"
+  (fn () => concat [[1,2,3],[4],[5]])
+  [1,2,3,4,5]
+
+val () =
+  Unit.checkExpectWith (Unit.listString Int.toString)
+  "concat [] should be []"
+  (fn () => concat [])
+  []
 
 (**** Problem G ****)
 (* Takes a single character and returns true if the character is a digit 
@@ -96,6 +144,16 @@ fun isDigit x =
     | #"9" => true
     | _ => false;
 
+val () =
+  Unit.checkExpectWith Bool.toString ("isDigit " ^ Char.toString #"5" ^ " should be true")
+    (fn () => isDigit #"5")
+    true
+
+val () =
+  Unit.checkExpectWith Bool.toString ("isDigit " ^ Char.toString #"a" ^ " should be false")
+    (fn () => isDigit #"a")
+    false
+
 (**** Problem H ****)
 (* Takes a single character and returns true if the character is an 
  * alphabetical letter ('a' to 'z' or 'A' to 'Z') and false otherwise. *)
@@ -106,6 +164,16 @@ fun isAlpha x =
     (ascii >= Char.ord #"a" andalso ascii <= Char.ord #"z") orelse
     (ascii >= Char.ord #"A" andalso ascii <= Char.ord #"Z")
   end;
+
+val () =
+  Unit.checkExpectWith Bool.toString ("isAlpha " ^ Char.toString #"a" ^ " should be true")
+    (fn () => isAlpha #"a")
+    true
+
+val () =
+  Unit.checkExpectWith Bool.toString ("isAlpha " ^ Char.toString #"1" ^ " should be false")
+    (fn () => isAlpha #"1")
+    false
 
 (**** Problem I ****)
 (* Takes a tuple of four values and returns a string in the following format
